@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f9f7f3" />
+    <meta
+      name="description"
+      content="A thoughtful, private sales CRM for independent teams. Organize opportunities, contacts, and forecasts in your browser."
+    />
+    <title>Pipeline Pocket — Good things in the works</title>
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to pipeline</a>
+    <header class="app-header">
+      <a class="brand" href="./"
+        ><span class="brand-mark">◒</span> pipeline<span>pocket</span></a
+      >
+      <nav aria-label="Main navigation">
+        <button id="pipeline-nav" class="nav-button active">Pipeline</button
+        ><button id="contacts-nav" class="nav-button">Contacts</button>
+      </nav>
+      <div class="header-right">
+        <span class="saved"><i></i> Saved in this browser</span>
+        <div class="avatar">RP</div>
+      </div>
+    </header>
+    <main id="main">
+      <div class="page-heading">
+        <div>
+          <span class="eyebrow">A little momentum, every day</span>
+          <h1>Good things in the works<span>.</span></h1>
+          <p class="muted">
+            Nurture the right conversations. Make room for what’s next.
+          </p>
+        </div>
+        <button id="add-deal" class="primary">＋ New opportunity</button>
+      </div>
+      <section class="stats" id="stats" aria-label="Sales statistics"></section>
+      <section class="workspace">
+        <div class="toolbar">
+          <div>
+            <h2 id="view-title">
+              Your pipeline <span id="deal-count" class="count"></span>
+            </h2>
+            <p class="muted" id="view-description">
+              Small steps. Strong relationships. Real progress.
+            </p>
+          </div>
+          <div class="row wrap">
+            <input
+              id="search"
+              type="search"
+              aria-label="Search opportunities and contacts"
+              placeholder="⌕  Search anything…"
+            /><select id="stage-filter" aria-label="Filter by stage">
+              <option value="all">All stages</option>
+              <option value="open">Open opportunities</option>
+            </select>
+            <div class="view-toggle">
+              <button
+                id="board-view"
+                aria-label="Board view"
+                aria-pressed="true"
+              >
+                ▥</button
+              ><button
+                id="list-view"
+                aria-label="List view"
+                aria-pressed="false"
+              >
+                ☷
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="board" class="board"></div>
+        <div id="list" class="table-scroll" hidden></div>
+        <div id="contacts" class="contacts-grid" hidden></div>
+        <div id="empty" class="empty" hidden>
+          <div class="empty-icon">✧</div>
+          <h3>A little space for your next opportunity.</h3>
+          <p>Add a deal or clear your search to get moving.</p>
+          <button id="empty-add">＋ Add an opportunity</button>
+        </div>
+      </section>
+      <section class="bottom-row">
+        <div class="tip">
+          <span>✧</span>
+          <div>
+            <strong>A good follow-up goes a long way.</strong>
+            <p>
+              Open a card to update its stage, add a note, or keep a
+              conversation moving.
+            </p>
+          </div>
+        </div>
+        <div class="backup-actions">
+          <button id="export">↓ Export backup</button
+          ><button id="import-button">↥ Import backup</button
+          ><input
+            id="import-file"
+            type="file"
+            accept=".json,application/json"
+            class="sr-only"
+          /><button id="reset">Reset demo</button>
+        </div>
+      </section>
+      <footer class="row spread wrap">
+        <span>Made for your next chapter. Your data stays in this browser.</span
+        ><span id="demo-label"
+          >Sample companies and contacts are fictional.</span
+        >
+      </footer>
+    </main>
+    <dialog id="deal-dialog" aria-labelledby="dialog-title">
+      <form id="deal-form">
+        <div class="row spread">
+          <div>
+            <span class="eyebrow">Keep the conversation going</span>
+            <h2 id="dialog-title">New opportunity</h2>
+          </div>
+          <button
+            type="button"
+            id="close-dialog"
+            class="icon-button"
+            aria-label="Close opportunity"
+          >
+            ×
+          </button>
+        </div>
+        <input type="hidden" name="id" /><label
+          >Opportunity name<input
+            name="title"
+            required
+            maxlength="120"
+            placeholder="e.g. Website redesign"
+        /></label>
+        <div class="form-grid">
+          <label
+            >Company<input
+              name="company"
+              required
+              maxlength="100"
+              placeholder="Company name" /></label
+          ><label
+            >Value (USD)<input
+              name="value"
+              type="number"
+              min="0"
+              max="1000000000000"
+              step="0.01"
+              required
+              placeholder="0.00" /></label
+          ><label>Stage<select name="stage"></select></label
+          ><label
+            >Expected close date<input name="closeDate" type="date" required
+          /></label>
+        </div>
+        <div class="form-divider">The person behind the opportunity</div>
+        <div class="form-grid">
+          <label
+            >Contact name<input
+              name="contact"
+              maxlength="100"
+              placeholder="Full name" /></label
+          ><label
+            >Contact email<input
+              name="email"
+              type="email"
+              maxlength="160"
+              placeholder="name@company.com"
+          /></label>
+        </div>
+        <label
+          >Phone <span class="optional">optional</span
+          ><input
+            name="phone"
+            type="tel"
+            maxlength="40"
+            placeholder="Add a phone number" /></label
+        ><label
+          >Notes & next steps<textarea
+            name="notes"
+            maxlength="4000"
+            placeholder="What did you discuss? What happens next?"
+          ></textarea>
+        </label>
+        <p id="form-error" class="form-error" role="alert"></p>
+        <div class="row spread">
+          <button id="delete-deal" type="button" class="danger">
+            Delete opportunity
+          </button>
+          <div class="row">
+            <button id="cancel-dialog" type="button">Cancel</button
+            ><button class="primary" type="submit">Save opportunity</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+      <h2 id="confirm-title">Confirm change</h2>
+      <p id="confirm-message"></p>
+      <div class="row">
+        <button id="confirm-cancel">Cancel</button
+        ><button id="confirm-yes" class="primary">Confirm</button>
+      </div>
+    </dialog>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
